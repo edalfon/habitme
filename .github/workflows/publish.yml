@@ -26,6 +26,9 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          CI: true
+          API_KEY: ${{ secrets.READWISE_API_TOKEN }}
 
       - name: Commit changes
         run: |
