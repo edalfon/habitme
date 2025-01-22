@@ -4,7 +4,7 @@ name: Publish
 on:
   workflow_dispatch:
   push:
-    branches: ["main"]
+    branches: ["*"]
 permissions:
   contents: write
 jobs:
@@ -28,7 +28,7 @@ jobs:
         run: npm run build
         env:
           CI: true
-          API_KEY: ${{ secrets.READWISE_API_TOKEN }}
+          READWISE_API_TOKEN: ${{ secrets.READWISE_API_TOKEN }}
 
       - name: Commit changes
         run: |
