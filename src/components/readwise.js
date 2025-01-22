@@ -10,9 +10,5 @@ export async function fetchSingleDoc(id, token = process.env.READWISE_API_TOKEN)
     },
   });
   const responseJson = await response.json();
-  if (responseJson && 'results' in responseJson) {
-    return responseJson['results'];
-  } else {
-    throw new Error('Results property is missing in the response');
-  }
+  return responseJson['results'];
 }
