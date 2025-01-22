@@ -6,6 +6,12 @@ toc: false
 
 # Rocket launches 🚀
 
+```js
+const incremental = FileAttachment("data/atomichabits.csv").csv({typed: true});
+```
+
+${Inputs.table(incremental)}
+
 <!-- Load and transform the data -->
 
 ```js
@@ -44,6 +50,7 @@ const color = Plot.scale({
     <span class="big">${launches.filter((d) => d.stateId !== "US" && d.stateId !== "SU" && d.stateId !== "RU" && d.stateId !== "CN").length.toLocaleString("en-US")}</span>
   </div>
 </div>
+
 
 <!-- Plot of launch history -->
 
