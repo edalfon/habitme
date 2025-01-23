@@ -1,4 +1,9 @@
-import * as d3 from "d3";
+// import * as d3 from "d3";
+import {
+  groups,
+  sort
+} from 'd3-array';
+
 
 import { fetchSingleDoc } from "../components/readwise.js";
 import { aggregateDaily } from "../components/aggregateDaily.js";
@@ -40,10 +45,10 @@ const csvLines = readFileSync(static_file, "utf-8").split('\n');
 const uniqueLines = Array.from(new Set(csvLines)).join('\n');
 const parsedData = csvParse(uniqueLines);
 
-const processedData = d3.groups(parsedData, d => d.id)
+const processedData = groups(parsedData, d => d.id)
   .flatMap(([id, group]) => {
     // Sort group by time
-    const sortedGroup = d3.sort(group, d => d.updated_at);
+    const sortedGroup = sort(group, d => d.updated_at);
 
     return sortedGroup.map((item, index, arr) => {
       const words_progress = item.reading_progress * item.word_count;
