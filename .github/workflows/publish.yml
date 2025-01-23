@@ -5,8 +5,13 @@ on:
   workflow_dispatch:
   push:
     branches: ["*"]
+  schedule:
+    - cron: '0 * * * *' # Runs every hour
+  
 permissions:
   contents: write
+  pages: write
+  id-token: write
 jobs:
   build:
     concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
