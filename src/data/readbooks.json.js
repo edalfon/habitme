@@ -1,5 +1,15 @@
 import { fetchSingleDoc } from "../components/readwise.js";
 // import { aggregateDaily } from "../components/wrangling.js";
+import {
+  //group,
+  rollup,
+  sum,
+  mean,
+  max,
+  min,
+  count
+} from 'd3-array';
+
 import { readFileSync, appendFileSync } from "node:fs";
 import { csvParse, csvFormat } from 'd3-dsv';
 import { groups, sort } from 'd3-array';
