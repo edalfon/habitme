@@ -1,12 +1,43 @@
 import { fetchSingleDoc } from "../components/readwise.js";
-import { aggregateDaily } from "../components/wrangling.js";
+// import { aggregateDaily } from "../components/wrangling.js";
 import { readFileSync, appendFileSync } from "node:fs";
 import { csvParse, csvFormat } from 'd3-dsv';
 import { groups, sort } from 'd3-array';
 
+function aggregateDaily(data, timeVar, aggPairs) {
+
+  const aggregationMap = {
+    'sum': sum, 'avg': mean, 'max': max, 'min': min, 'count': count
+  };
+
+  // Group and aggregate data
+  const aggregatedData = Array.from(
+    rollup(
+      data,
+      group => {
+        const result = { [timeVar]: new Date(group[0][timeVar]).toISOString().split('T')[0] };
+
+        aggPairs.forEach(([variable, aggFunc]) => {
+
+          const aggFunction = typeof aggFunc === 'string' ? aggregationMap[aggFunc] : aggFunc;
+
+          result[`${variable}`] = aggFunction(
+            group.map(item => item[variable])
+          );
+        });
+
+        return result;
+      },
+      item => new Date(item[timeVar]).toISOString().split('T')[0]
+    ).values()
+  );
+
+  return aggregatedData;
+}
+
 // get the data for the single document, and append a line to the static data
 // so that the data accummulates incrementally
-const static_file = "src/data/readbooks_static.csv"
+const static_file = "src/data/readbooks_static.csv";
 async function update_book_progress(bookid, static_file) {
   const allData = await fetchSingleDoc(bookid);
 
