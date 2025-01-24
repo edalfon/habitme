@@ -1,14 +1,8 @@
-// import * as d3 from "d3";
-import {
-  groups,
-  sort
-} from 'd3-array';
-
-
 import { fetchSingleDoc } from "../components/readwise.js";
-import { aggregateDaily } from "../components/aggregateDaily.js";
+import { aggregateDaily } from "../components/wrangling.js";
 import { readFileSync, appendFileSync } from "node:fs";
 import { csvParse, csvFormat } from 'd3-dsv';
+import { groups, sort } from 'd3-array';
 
 // get the data for the single document, and append a line to the static data
 // so that the data accummulates incrementally
@@ -81,4 +75,3 @@ const outputJson = JSON.stringify({
 });
 
 process.stdout.write(outputJson);
-
