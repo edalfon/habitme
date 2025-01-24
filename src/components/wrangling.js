@@ -1,14 +1,20 @@
-import * as d3 from "npm:d3";
+// import * as d3 from "npm:d3";
 
 import {
-  //group,
+  groups,
   rollup,
+  ascending,
   sum,
   mean,
   max,
   min,
   count
 } from 'd3-array';
+
+import {
+  timeDay,
+  timeDays
+} from 'd3-time';
 
 export function aggregateDaily(data, timeVar, aggPairs) {
 
@@ -43,14 +49,14 @@ export function aggregateDaily(data, timeVar, aggPairs) {
 
 export function fillMissingDates(data, timevar = 'timestamp', daysBack = 365) {
   // Find the latest date in the data
-  const latestDate = d3.max(data, d => d[timevar]);
+  const latestDate = max(data, d => d[timevar]);
 
   // Generate all dates for the year preceding the latest date
-  const startDate = d3.timeDay.offset(latestDate, -daysBack);
-  const allDates = d3.timeDays(startDate, latestDate);
+  const startDate = timeDay.offset(latestDate, -daysBack);
+  const allDates = timeDays(startDate, latestDate);
 
   // Create a map of existing dates
-  const dateMap = new Map(data.map(d => [d3.timeDay(d[timevar]).getTime(), d]));
+  const dateMap = new Map(data.map(d => [timeDay(d[timevar]).getTime(), d]));
 
   // Fill missing dates with default values
   const filledData = allDates.map(date => {
@@ -64,7 +70,7 @@ export function fillMissingDates(data, timevar = 'timestamp', daysBack = 365) {
 export function calculateStreaks(data, timevar, donevar, cutoffvar) {
 
   // using d3, make sure the data is sorted ascendedly by timevar
-  data.sort((a, b) => d3.ascending(a[timevar], b[timevar]));
+  data.sort((a, b) => ascending(a[timevar], b[timevar]));
   //data.sort((a, b) => b[timevar] - a[timevar]);
 
   data.forEach(d => {
@@ -79,11 +85,11 @@ export function calculateStreaks(data, timevar, donevar, cutoffvar) {
     d.streakId = streakId;
   });
 
-  const groupedData = d3.groups(data, d => d.streakId);
+  const groupedData = groups(data, d => d.streakId);
   const summarizedStreaks = groupedData.map(([key, group]) => {
     return {
-      start_date: d3.min(group, d => d[timevar]),
-      end_date: d3.max(group, d => d[timevar]),
+      start_date: min(group, d => d[timevar]),
+      end_date: max(group, d => d[timevar]),
       streak_length: group.length
     };
   });
