@@ -27,7 +27,9 @@ async function update_book_progress(bookid, static_file) {
 }
 
 const books_to_track = [
-  "01jfadtvr15x8ndaxv69zq48e8", "01jfadv2p9jc66xtcwg8ksb89k"
+  // "01jfadtvr15x8ndaxv69zq48e8", // Atomic Habits
+  "01jfadv2p9jc66xtcwg8ksb89k", // Nexus
+  "01jqnk6pvx936a3c8m7yvd3spg", // I am Pilgrim
 ]
 for (const bookid of books_to_track) {
   await update_book_progress(bookid, static_file);
