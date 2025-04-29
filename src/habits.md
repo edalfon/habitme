@@ -78,9 +78,5 @@ const ggg = fillMissingDates(readbooks.daily, "fetched_at");
     daily
     ${Inputs.table(readbooks.daily)}
   </div> 
-  <div class="card">
-    expanded
-    ${Inputs.table(readbooks.expanded)}
-  </div> 
 </div>
 
