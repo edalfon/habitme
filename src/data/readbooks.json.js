@@ -1,5 +1,7 @@
 import { fetchSingleDoc } from "../components/readwise.js";
 import { aggregateDaily } from "../components/wrangling.js";
+import { fillMissingDates } from "../components/wrangling.js";
+
 import { readFileSync, appendFileSync } from "node:fs";
 import { csvParse, csvFormat } from 'd3-dsv';
 import { groups, sort } from 'd3-array';
@@ -35,7 +37,6 @@ for (const bookid of books_to_track) {
   await update_book_progress(bookid, static_file);
 }
 
-
 // Now process the static file with the whole data
 const csvLines = readFileSync(static_file, "utf-8").split('\n');
 const uniqueLines = Array.from(new Set(csvLines)).join('\n');
@@ -44,7 +45,7 @@ const parsedData = csvParse(uniqueLines);
 const processedData = groups(parsedData, d => d.id)
   .flatMap(([id, group]) => {
     // Sort group by time
-    const sortedGroup = sort(group, d => d.updated_at);
+    const sortedGroup = sort(group, d => d.fetched_at);
 
     return sortedGroup.map((item, index, arr) => {
       const words_progress = item.reading_progress * item.word_count;
@@ -61,8 +62,8 @@ const processedData = groups(parsedData, d => d.id)
     });
   });
 
-const daily = aggregateDaily(processedData, 'updated_at', [
-  ['cutoff', 'avg'],
+const daily = aggregateDaily(processedData, 'fetched_at', [
+  ['cutoff', 'max'],
   ['words_read', 'sum'],
   ['seconds', 'sum'],
 ]);
@@ -71,8 +72,11 @@ daily.forEach(d => {
   d.words_per_second = d.words_read / d.seconds;
 });
 
+//const expanded = fillMissingDates(daily, "fetched_at", 1);
+
 const outputJson = JSON.stringify({
   'raw': processedData,
+  //'expanded': expanded,
   'daily': daily
 });
 

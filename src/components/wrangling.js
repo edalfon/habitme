@@ -22,19 +22,23 @@ export function aggregateDaily(data, timeVar, aggPairs) {
     'sum': sum, 'avg': mean, 'max': max, 'min': min, 'count': count
   };
 
+  // const expanded = fillMissingDates(data, timeVar, 0);
+
   // Group and aggregate data
   const aggregatedData = Array.from(
     rollup(
       data,
       group => {
-        const result = { [timeVar]: new Date(group[0][timeVar]).toISOString().split('T')[0] };
+        const result = {
+          [timeVar]: new Date(group[0][timeVar]).toISOString().split('T')[0]
+        };
 
         aggPairs.forEach(([variable, aggFunc]) => {
 
           const aggFunction = typeof aggFunc === 'string' ? aggregationMap[aggFunc] : aggFunc;
 
           result[`${variable}`] = aggFunction(
-            group.map(item => item[variable])
+            group.map(item => item[variable] || 0)
           );
         });
 
@@ -48,20 +52,24 @@ export function aggregateDaily(data, timeVar, aggPairs) {
 }
 
 export function fillMissingDates(data, timevar = 'timestamp', daysBack = 365) {
-  // Find the latest date in the data
-  const latestDate = max(data, d => d[timevar]);
 
-  // Generate all dates for the year preceding the latest date
-  const startDate = timeDay.offset(latestDate, -daysBack);
-  const allDates = timeDays(startDate, latestDate);
+  const latestDate = max(data, d => new Date(d[timevar]));
+  const firstDate = min(data, d => new Date(d[timevar]));
+
+  // We want to always keep all the range of the data. So if the used 
+  // passes daysBack=0, we still return all the dates
+  let startDate = timeDay.offset(latestDate, -daysBack);
+  if (firstDate < startDate) {
+    startDate = firstDate;
+  }
+  const allDates = timeDays(startDate, latestDate).map(dayString);
 
   // Create a map of existing dates
-  const dateMap = new Map(data.map(d => [timeDay(d[timevar]).getTime(), d]));
+  const dateMap = new Map(data.map(d => [dayString(d[timevar]), d]));
 
   // Fill missing dates with default values
   const filledData = allDates.map(date => {
-    const ts = date.getTime();
-    return dateMap.has(ts) ? dateMap.get(ts) : { [timevar]: date };
+    return dateMap.has(date) ? dateMap.get(date) : { [timevar]: date };
   });
 
   return filledData;
@@ -113,3 +121,6 @@ export function calculateStreaks(data, timevar, donevar, cutoffvar) {
 }
 
 
+function dayString(date) {
+  return new Date(date).toISOString().split('T')[0];
+}
