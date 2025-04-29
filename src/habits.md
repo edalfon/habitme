@@ -1,6 +1,6 @@
 ---
 theme: dashboard
-title: Habits
+title: Words read from selected books
 toc: false
 ---
 
@@ -28,7 +28,7 @@ const maptype = Generators.input(maptypeInput);
 ```
 
 ```js
-const streaks = calculateStreaks(readbooks.daily, "updated_at", "words_read", "cutoff")
+const streaks = calculateStreaks(readbooks.daily, "fetched_at", "words_read", "cutoff")
 ```
 
 <div class="grid grid-cols-2">
@@ -54,30 +54,33 @@ const streaks = calculateStreaks(readbooks.daily, "updated_at", "words_read", "c
   </div>
   <div class="card">
     ${maptypeInput}
-    ${resize((width) => habitStreakHeatMap(readbooks.daily, {width}, "updated_at", "words_read", "cutoff", maptype.includes("Streak map"), maptype.includes("Heat map")))}
+    ${resize((width) => habitStreakHeatMap(readbooks.daily, {width}, "fetched_at", "words_read", "cutoff", maptype.includes("Streak map"), maptype.includes("Heat map")))}
   </div> 
 </div>
 
 <div class="grid grid-cols-1">
   <div class="card">
-    ${resize((width) => trackPlot(readbooks.daily, {width}, "updated_at", "words_read", "cutoff"))}
+    ${resize((width) => trackPlot(readbooks.daily, {width}, "fetched_at", "words_read", "cutoff"))}
   </div>
 </div>
 
 
 ```js
-maptype
-const isHeatmap = maptype.includes("Heatmap");
+const ggg = fillMissingDates(readbooks.daily, "fetched_at");
 ```
 
-${Inputs.table(readbooks.daily)}
-
-```js
-const wow = fillMissingDates(readbooks.daily, "updated_at", 365)
-```
-
-raw
-${Inputs.table(readbooks.daily)}
-wow
-${Inputs.table(wow)}
+<div class="grid grid-cols-1">
+  <div class="card">
+    raw
+    ${Inputs.table(readbooks.raw)}
+  </div> 
+  <div class="card">
+    daily
+    ${Inputs.table(readbooks.daily)}
+  </div> 
+  <div class="card">
+    expanded
+    ${Inputs.table(readbooks.expanded)}
+  </div> 
+</div>
 
