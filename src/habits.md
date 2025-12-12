@@ -34,13 +34,13 @@ const streaks = calculateStreaks(readbooks.daily, "fetched_at", "words_read", "c
 <div class="grid grid-cols-2">
   <div class="grid grid-rows-2">
     <div class="card">
-      <h2>Latest streak</h2>
+      <h2>Current streak</h2>
       <br/>
-      <span class="big">${streaks["latest"].streak_length} days</span>
+      <span class="big">${streaks["current"].streak_length} days</span>
       <br/><br/>
-      From ${new Date(streaks["latest"].start_date).toDateString()}
+      ${streaks["current"].streak_length > 0 ? `From ${new Date(streaks["current"].start_date).toDateString()}` : ""}
       <br/>
-      To ${new Date(streaks["latest"].start_date).toDateString()}
+      ${streaks["current"].streak_length > 0 ? `To ${new Date(streaks["current"].end_date).toDateString()}` : ""}
     </div>
     <div class="card">
       <h2>Longest streaks</h2>

@@ -113,6 +113,18 @@ export function calculateStreaks(data, timevar, donevar, cutoffvar) {
 
   const latest = summarizedStreaks[summarizedStreaks.length - 1];
 
+  // Logic for current streak
+  // Only counts if the streak is active (ended today or yesterday)
+  const today = new Date();
+  const todayStr = today.toISOString().split('T')[0];
+  const yesterday = new Date(today);
+  yesterday.setDate(yesterday.getDate() - 1);
+  const yesterdayStr = yesterday.toISOString().split('T')[0];
+
+  const isCurrent = latest.end_date === todayStr || latest.end_date === yesterdayStr;
+
+  const current = isCurrent ? latest : { streak_length: 0, start_date: null, end_date: null };
+
   const longest = summarizedStreaks.reduce((max, streak) => {
     if (streak.streak_length > max.streak_length) {
       return streak;
@@ -125,7 +137,8 @@ export function calculateStreaks(data, timevar, donevar, cutoffvar) {
 
   return {
     "latest": latest,
-    "longest": longest
+    "longest": longest,
+    "current": current
   };
 }
 
