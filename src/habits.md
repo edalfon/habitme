@@ -4,13 +4,10 @@ title: Words read from selected books
 toc: false
 ---
 
-# Rocket launches 🚀
+# Rocket launches 🚀🚀🚀🚀🚀
 
 ```js
-import { trackPlot, habitStreakHeatMap } from "./components/habitPlots.js";
-import { 
-  aggregateDaily, fillMissingDates, calculateStreaks 
-} from "./components/wrangling.js";
+import { HabitSection } from "./components/habitsUI.js";
 ```
 ```js
 const readbooks = FileAttachment("data/readbooks.json").json();
@@ -27,47 +24,14 @@ const maptypeInput = Inputs.checkbox(["Streak map", "Heat map"], {
 const maptype = Generators.input(maptypeInput);
 ```
 
-```js
-const streaks = calculateStreaks(readbooks.daily, "fetched_at", "words_read", "cutoff")
-```
-
-<div class="grid grid-cols-2">
-  <div class="grid grid-rows-2">
-    <div class="card">
-      <h2>Current streak</h2>
-      <br/>
-      <span class="big">${streaks["current"].streak_length} days</span>
-      <br/><br/>
-      ${streaks["current"].streak_length > 0 ? `From ${new Date(streaks["current"].start_date).toDateString()}` : ""}
-      <br/>
-      ${streaks["current"].streak_length > 0 ? `To ${new Date(streaks["current"].end_date).toDateString()}` : ""}
-    </div>
-    <div class="card">
-      <h2>Longest streaks</h2>
-      <br/>
-      <span class="big">${streaks["longest"].streak_length} days</span>
-      <br/><br/>
-      From ${new Date(streaks["longest"].start_date).toDateString()}
-      <br/>
-      To ${new Date(streaks["longest"].start_date).toDateString()}
-    </div>
-  </div>
-  <div class="card">
-    ${maptypeInput}
-    ${resize((width) => habitStreakHeatMap(readbooks.daily, {width}, "fetched_at", "words_read", "cutoff", maptype.includes("Streak map"), maptype.includes("Heat map")))}
-  </div> 
-</div>
-
-<div class="grid grid-cols-1">
-  <div class="card">
-    ${resize((width) => trackPlot(readbooks.daily, {width}, "fetched_at", "words_read", "cutoff"))}
-  </div>
-</div>
-
-
-```js
-const ggg = fillMissingDates(readbooks.daily, "fetched_at");
-```
+${resize((width) => HabitSection(readbooks.daily, {
+  width, 
+  timeVar: "fetched_at", 
+  valueVar: "words_read", 
+  cutoffVar: "cutoff",
+  mapTypeInput: maptypeInput,
+  mapTypeValues: maptype
+}))}
 
 <div class="grid grid-cols-1">
   <div class="card">
