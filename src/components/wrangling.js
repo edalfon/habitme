@@ -94,13 +94,22 @@ export function calculateStreaks(data, timevar, donevar, cutoffvar) {
   });
 
   const groupedData = groups(data, d => d.streakId);
-  const summarizedStreaks = groupedData.map(([key, group]) => {
+  const summarizedStreaks = groupedData
+    .filter(([key, group]) => group[0].cuttoffexceeded === 1)
+    .map(([key, group]) => {
+      return {
+        start_date: min(group, d => d[timevar]),
+        end_date: max(group, d => d[timevar]),
+        streak_length: group.length
+      };
+    });
+
+  if (summarizedStreaks.length === 0) {
     return {
-      start_date: min(group, d => d[timevar]),
-      end_date: max(group, d => d[timevar]),
-      streak_length: group.length
+      "latest": { streak_length: 0 },
+      "longest": { streak_length: 0 }
     };
-  });
+  }
 
   const latest = summarizedStreaks[summarizedStreaks.length - 1];
 
