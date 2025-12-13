@@ -23,7 +23,7 @@ const maptypeInput = Inputs.checkbox(["Streak map", "Heat map"], {
 ;
 const maptype = Generators.input(maptypeInput);
 ```
-
+<div class="grid grid-cols-1">
 ${resize((width) => HabitSection(steps.daily, {
   width,
   timeVar: "date",
@@ -32,6 +32,7 @@ ${resize((width) => HabitSection(steps.daily, {
   mapTypeInput: null, // Reusing global input might be tricky if we want independent controls, but for now let's just show the plot
   mapTypeValues: maptype
 }))}
+</div>
 
 <div class="grid grid-cols-1">
   <div class="card">

@@ -24,7 +24,8 @@ const maptypeInput = Inputs.checkbox(["Streak map", "Heat map"], {
 const maptype = Generators.input(maptypeInput);
 ```
 
-${resize((width) => HabitSection(readbooks.daily, {
+<div class="grid grid-cols-1">
+  ${resize((width) => HabitSection(readbooks.daily, {
   width, 
   timeVar: "fetched_at", 
   valueVar: "words_read", 
@@ -32,6 +33,7 @@ ${resize((width) => HabitSection(readbooks.daily, {
   mapTypeInput: maptypeInput,
   mapTypeValues: maptype
 }))}
+</div>
 
 <div class="grid grid-cols-1">
   <div class="card">
