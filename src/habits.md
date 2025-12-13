@@ -4,7 +4,7 @@ title: Words read from selected books
 toc: false
 ---
 
-# Rocket launches 🚀🚀🚀🚀🚀
+# Words read from selected books 🚀
 
 ```js
 import { HabitSection } from "./components/habitsUI.js";
