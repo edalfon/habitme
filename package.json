@@ -9,6 +9,7 @@
     "observable": "observable"
   },
   "dependencies": {
+    "@duckdb/node-api": "^1.4.2-r.1",
     "@observablehq/framework": "^1.13.0",
     "d3-dsv": "^3.0.1",
     "d3-time-format": "^4.1.0"
