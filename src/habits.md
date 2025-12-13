@@ -31,7 +31,8 @@ const maptype = Generators.input(maptypeInput);
   valueVar: "words_read", 
   cutoffVar: "cutoff",
   mapTypeInput: maptypeInput,
-  mapTypeValues: maptype
+  mapTypeValues: maptype,
+  resize
 }))}
 </div>
 

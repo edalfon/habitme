@@ -30,7 +30,8 @@ ${resize((width) => HabitSection(steps.daily, {
   valueVar: "value",
   cutoffVar: "cutoff",
   mapTypeInput: null, // Reusing global input might be tricky if we want independent controls, but for now let's just show the plot
-  mapTypeValues: maptype
+  mapTypeValues: maptype,
+  resize
 }))}
 </div>
 
