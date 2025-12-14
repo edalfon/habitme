@@ -33,6 +33,9 @@ const books_to_track = [
   // "01jfadv2p9jc66xtcwg8ksb89k", // Nexus
   "01jqnk6pvx936a3c8m7yvd3spg", // I am Pilgrim
   "01jfadtxgqzj6cxgqjvxfwdtth", // Hmo Deus
+  "01kcehc29eymypke6a0bn34xff", // El último Van Gogh
+  "01kceh75k5s8bepzjvmck80vav", // Baumhaus 14 - Im Land der Drachen
+  "01kceh6z52e8yh5xye7txp2ca2", // Trust No One
 ]
 for (const bookid of books_to_track) {
   await update_book_progress(bookid, static_file);
