@@ -62,7 +62,7 @@ export function fillMissingDates(data, timevar = 'timestamp', daysBack = 365) {
   if (firstDate < startDate) {
     startDate = firstDate;
   }
-  const allDates = timeDays(startDate, latestDate).map(dayString);
+  const allDates = timeDays(startDate, timeDay.offset(latestDate, 1)).map(dayString);
 
   // Create a map of existing dates
   const dateMap = new Map(data.map(d => [dayString(d[timevar]), d]));
