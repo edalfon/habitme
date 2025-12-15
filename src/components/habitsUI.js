@@ -28,7 +28,7 @@ export function longestStreakCard(streaks) {
       <br/><br/>
       From ${new Date(longest.start_date).toDateString()}
       <br/>
-      To ${new Date(longest.start_date).toDateString()}
+      To ${new Date(longest.end_date).toDateString()}
     </div>
   `;
 }
