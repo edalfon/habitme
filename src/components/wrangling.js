@@ -82,7 +82,7 @@ export function calculateStreaks(data, timevar, donevar, cutoffvar) {
   //data.sort((a, b) => b[timevar] - a[timevar]);
 
   data.forEach(d => {
-    d.cuttoffexceeded = d[donevar] > d[cutoffvar] ? 1 : 0;
+    d.cuttoffexceeded = d[donevar] >= d[cutoffvar] ? 1 : 0;
   });
 
   let streakId = 0;
@@ -98,8 +98,8 @@ export function calculateStreaks(data, timevar, donevar, cutoffvar) {
     .filter(([key, group]) => group[0].cuttoffexceeded === 1)
     .map(([key, group]) => {
       return {
-        start_date: min(group, d => d[timevar]),
-        end_date: max(group, d => d[timevar]),
+        start_date: min(group, d => d[timevar]).split('T')[0],
+        end_date: max(group, d => d[timevar]).split('T')[0],
         streak_length: group.length
       };
     });
