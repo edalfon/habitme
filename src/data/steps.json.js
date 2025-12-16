@@ -27,6 +27,7 @@ async function main() {
               strftime(DATE_TRUNC('day', epoch_ms(start_time)), '%Y-%m-%d') AS date,
               10000 as cutoff
             FROM healthconnectsync.steps_record_table
+            WHERE app_info_id = 1
             GROUP BY DATE_TRUNC('day', epoch_ms(start_time))
             ORDER BY date
             ;
