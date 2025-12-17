@@ -8,29 +8,25 @@ toc: false
 
 ```js
 import { HabitSection } from "./components/habitsUI.js";
+import { createMapTypeInput } from "./components/habitsUI.js";
 ```
 ```js
 const steps = FileAttachment("data/steps.json").json();
 ```
 
 ```js
-const maptypeInput = Inputs.checkbox(["Streak map", "Heat map"], {
-    sort: false,
-    unique: true,
-    value: ["Streak map"],
-    label: ""
-  })
-;
-const maptype = Generators.input(maptypeInput);
+const mapTypeInput = createMapTypeInput();
+const mapType = Generators.input(mapTypeInput); // Need to keep generator at .md level
 ```
+
 <div class="grid grid-cols-1">
 ${resize((width) => HabitSection(steps.daily, {
   width,
   timeVar: "date",
   valueVar: "value",
   cutoffVar: "cutoff",
-  mapTypeInput: null, // Reusing global input might be tricky if we want independent controls, but for now let's just show the plot
-  mapTypeValues: maptype,
+  mapTypeInput: mapTypeInput,
+  mapTypeValues: mapType,
   resize
 }))}
 </div>

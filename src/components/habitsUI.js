@@ -2,6 +2,8 @@ import * as Plot from "npm:@observablehq/plot";
 import { html } from "npm:htl";
 import { calculateStreaks } from "./wrangling.js";
 import { trackPlot, habitStreakHeatMap } from "./habitPlots.js";
+import { checkbox } from "npm:@observablehq/inputs";
+import { Generators } from "npm:@observablehq/stdlib";
 
 export function currentStreakCard(streaks) {
   const current = streaks.current;
@@ -33,6 +35,14 @@ export function longestStreakCard(streaks) {
   `;
 }
 
+export function createMapTypeInput() {
+  return checkbox(["Streak map", "Heat map"], {
+    sort: false,
+    unique: true,
+    value: ["Streak map"],
+    label: ""
+  })
+}
 
 export function HabitSection(data, {
   width,
@@ -59,8 +69,8 @@ export function HabitSection(data, {
     ? resize((w) => trackPlot(data, { width: w }, timeVar, valueVar, cutoffVar))
     : trackPlot(data, { width }, timeVar, valueVar, cutoffVar);
 
+
   return html`
-  
     <div class="grid grid-cols-4">
       <div class="flex">
         ${currentStreakHTML}
@@ -74,6 +84,5 @@ export function HabitSection(data, {
     <div class="card">
       ${track}
     </div>
-
   `;
 }

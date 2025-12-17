@@ -8,20 +8,15 @@ toc: false
 
 ```js
 import { HabitSection } from "./components/habitsUI.js";
+import { createMapTypeInput } from "./components/habitsUI.js";
 ```
 ```js
 const readbooks = FileAttachment("data/readbooks.json").json();
 ```
 
 ```js
-const maptypeInput = Inputs.checkbox(["Streak map", "Heat map"], {
-    sort: false,
-    unique: true,
-    value: ["Streak map"],
-    label: ""
-  })
-;
-const maptype = Generators.input(maptypeInput);
+const mapTypeInput = createMapTypeInput();
+const mapType = Generators.input(mapTypeInput); // Need to keep generator at .md level
 ```
 
 <div class="grid grid-cols-1">
@@ -30,8 +25,8 @@ const maptype = Generators.input(maptypeInput);
   timeVar: "fetched_at", 
   valueVar: "words_read", 
   cutoffVar: "cutoff",
-  mapTypeInput: maptypeInput,
-  mapTypeValues: maptype,
+  mapTypeInput: mapTypeInput,
+  mapTypeValues: mapType,
   resize
 }))}
 </div>
