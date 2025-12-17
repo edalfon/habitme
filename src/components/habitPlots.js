@@ -14,7 +14,8 @@ export function trackPlot(
   xLabel,
   yLabel
 ) {
-  data.forEach(d => d[timevar] = new Date(d[timevar]));
+  // Create a local copy of data with dates converted, to avoid mutating the original data
+  const plotData = data.map(d => ({ ...d, [timevar]: new Date(d[timevar]) }));
 
   // Create a container to hold both plots
   const container = document.createElement('div');
@@ -23,12 +24,12 @@ export function trackPlot(
   const mainPlotDiv = document.createElement('div');
 
   // Get date extent
-  const extent = d3.extent(data, d => d[timevar]);
+  const extent = d3.extent(plotData, d => d[timevar]);
 
   // Function to render the main plot with a given domain
   function renderMainPlot(domain) {
     // Filter data to only include points within the domain
-    const filteredData = data.filter(d =>
+    const filteredData = plotData.filter(d =>
       d[timevar] >= domain[0] && d[timevar] <= domain[1]
     );
 
@@ -67,13 +68,13 @@ export function trackPlot(
     x: { label: null, axis: null },  // Remove tick labels
     y: { label: null, axis: null },
     marks: [
-      Plot.areaY(data, {
+      Plot.areaY(plotData, {
         x: timevar,
         y: cutoffvar,
         fillOpacity: 0.3,
         fill: "darkred"
       }),
-      Plot.line(data, {
+      Plot.line(plotData, {
         x: timevar,
         y: donevar,
         stroke: "skyblue",
@@ -139,8 +140,7 @@ export function habitStreakHeatMap(
   title = "Words Read Calendar Heatmap"
 ) {
 
-  const expanded = fillMissingDates(data, timevar);
-  expanded.forEach(d => d[timevar] = new Date(d[timevar]));
+  const expanded = fillMissingDates(data, timevar).map(d => ({ ...d, [timevar]: new Date(d[timevar]) }));
 
   const theplot = Plot.plot({
     width,

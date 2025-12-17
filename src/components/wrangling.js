@@ -98,8 +98,8 @@ export function calculateStreaks(data, timevar, donevar, cutoffvar) {
     .filter(([key, group]) => group[0].cuttoffexceeded === 1)
     .map(([key, group]) => {
       return {
-        start_date: min(group, d => d[timevar]).split('T')[0],
-        end_date: max(group, d => d[timevar]).split('T')[0],
+        start_date: dayString(min(group, d => d[timevar])),
+        end_date: dayString(max(group, d => d[timevar])),
         streak_length: group.length
       };
     });
