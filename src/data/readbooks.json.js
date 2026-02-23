@@ -36,6 +36,7 @@ const books_to_track = [
   "01kcehc29eymypke6a0bn34xff", // El último Van Gogh
   "01kceh75k5s8bepzjvmck80vav", // Baumhaus 14 - Im Land der Drachen
   "01kceh6z52e8yh5xye7txp2ca2", // Trust No One
+  "01khqwbfgferef8f5qskw5jgbt", // Ensayo sobre la ceguera
 ]
 for (const bookid of books_to_track) {
   await update_book_progress(bookid, static_file);
